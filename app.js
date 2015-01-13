@@ -7,7 +7,8 @@ var io = require('socket.io').listen(server);
 
 app.use(express.static(__dirname + '/public'));
 
-var serialport = new SerialPort("/dev/tty.usbmodem1421"); // replace this address with your port address
+//var serialport = new SerialPort("COM3"); // replace this address with your port address
+var serialport = new SerialPort('\\\\.\\COM3',{baudrate: 57600}, true);
 serialport.on('open', function(){
 	// Now server is connected to Arduino
 	console.log('Serial Port Opend');
@@ -20,11 +21,9 @@ serialport.on('open', function(){
 		var lastValue;
 
 		serialport.on('data', function(data){
-			var angle = data[0];
-			if(lastValue !== angle){
-				socket.emit('data', angle);
-			}
-			lastValue = angle;
+			
+				socket.emit('data', data);
+			
 		});
 	});
 });

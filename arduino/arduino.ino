@@ -1,13 +1,35 @@
+const int ledPin = 13;
+const int inputPin = 2;
+
+int val = 0;
+int aurrekoa;
+
 void setup() {
   // initialize serial communication at 9600 bits per second:
-  Serial.begin(9600);
+  Serial.begin(57600);
+  pinMode(ledPin, OUTPUT);
+  pinMode(inputPin, INPUT);
+  digitalWrite(inputPin, HIGH);
 }
 
 void loop() {
-  // read the input on analog pin 0:
-  int sensorValue = analogRead(A0);
-  // map the value between 0 to 90 :
-  float val = map(sensorValue,0,1023,0,90);
-  // print out the value :
-  Serial.println(val);
+ aurrekoa = val; 
+ val = digitalRead(inputPin);
+ 
+ if (val != aurrekoa){
+    if (val == HIGH)
+    {
+      digitalWrite(ledPin, HIGH);
+      Serial.println("IREKITA");
+      delay(100);
+    }
+    else
+    {
+      digitalWrite(ledPin, LOW);
+      Serial.println("ITXITA");
+      delay(100);
+    }
+   
+ }
+ 
 }
